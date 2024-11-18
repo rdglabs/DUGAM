@@ -1,0 +1,61 @@
+{
+      "SMTP": {
+      "address": "smtp.domain.com",
+      "from": "Email Name <from@domain.com>",
+      "subject": "User Account details for {{user.fullname}}",
+      "attachment": "C:/Path/jpeg.png",
+      "ErrorTo": "error email address. [[IN PROGRESS]]",
+      "ITEmail": "IT team email to be BCC for user creds",
+      "sendManagerEmail": true
+      },
+    "Settings": {
+      "mailTemplateManager": "MailTemplateUserCreated.html",
+      "mailTemplateServiceDesk": "MailTemplateServiceDesk.html",
+      "domain": "AD Domain",
+      "maildomain": "Email Domain",
+	    "Company": "Contoso",
+      "SearchOU": "DC=Contoso,DC=com",
+      "password":{
+        "NumberofWords": 1,
+        "RequiredLength": 14,
+        "Numbers": true,
+        "SpecialChar": "!,@,#,$,&"
+      },
+      "Auth":{
+        "tenant_id": "Entra App Tennant ID",
+        "certThumbprint": "Entra App Cert thumbprint",
+        "client_id": "App Client ID",
+        "Organization": "Entra Domain name"
+      }
+      
+    },
+    "SiteCode":
+        [
+          {
+            "Code": "BER01",
+            "Name": "City Centre Alexanderplatz"
+          },
+          {
+            "Code": "02",
+            "Name": "Site02"
+          }
+
+        ]
+      ,
+    "site": {
+      "BER01": {
+        "City": "Berlin",
+        "office": "City Centre Alexanderplatz",
+        "OU": "OU=Users,OU=Berlin,DC=Contoso,DC=com",
+        "state": "Brandenburg",
+        "PostalCode": "10178"
+      },
+      "02": {
+        "City": "Indianapolis",
+        "office": "IND",
+        "OU": "OU=Users,OU=Site02,DC=Contoso,DC=com",
+        "state": "Texas",
+        "PostalCode": "10002"
+      }
+    }
+  }

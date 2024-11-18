@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Manual.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #fda500; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="domain-user--group-automator-manual-dugam">Domain User &amp; Group Automator manual (DUGAM)</h1>
+<p>This is a powershell tool that is used to create AD user and mass adjust group membership on AD, Entra and exchanged by copying from an existing user.</p>
+<h2 id="tool-functions">Tool Functions</h2>
+<p>The two primary functions you can select from are create a new user and Mass Group membership. It will then follow the prompts for each respective function.</p>
+<h3 id="create-a-new-adentra-user-account">Create a New AD/Entra User Account:</h3>
+<ul>
+<li>
+<p><strong>Use Case:</strong></p>
+<p>Ideal for creating new AD user that will be synced up to Entra. It will create a password from the password.dict file and random amount of numbers, and special characters to reach the minimum length. If desired it will copy all AD and Entra groups via a schedule task from an existing user.</p>
+</li>
+<li>
+<p><strong>Prompts:</strong></p>
+<p>Will prompt for the following: First Name*, SurName*, Title, Department, Employee ID, Manager, Office Location, and Phone Extension. Fields with * are required. The Manager Prompt will ask for name, it will then search AD to find an user that matches. The Office locations will prompt you to select from the list built in config file. If one of the office location info is blank (City, Office name, State, Postal Code) it will then prompt the user for it. If there is an typo or the OU in config file is not found it will error out and exit. Once the user is created it will prompt if you want to copy groups from an existing users.</p>
+</li>
+<li>
+<p><strong>Group Copying:</strong></p>
+<p>It will prompt if you want to copy group memberships from an existing user. If selected to copy, it will copy all group memberships from another user in AD, Entra, and Exchange. The user running the tool must have permission to adjust membership on the groups.  Entra and Exchange groups are copied via a scheduled task to ensure the new account fully syncs.</p>
+</li>
+<li>
+<p><strong>Notification:</strong></p>
+<p>Once the setup is complete, the tool will notify the user’s manager and blind carbon copy the IT team with the account details and password. This can be turn off via the config file setting, sendManagerEmail.</p>
+</li>
+</ul>
+<h3 id="2-mass-group-membership">2. Mass Group Membership:</h3>
+<ul>
+<li>
+<p><strong>Use Case:</strong>
+This tool is ideal for when a user switches departments, sites, or different positions and they no longer need to access items from their previous position. It will remove all existing groups and copy new group membership over from an existing user for AD, Exchange, and Entra.</p>
+</li>
+<li>
+<p><strong>Prompts:</strong>
+Will prompt for the Target User, Source User. It will search for those users in AD and have you select from the found results. It will prompt if you want to adjust AD or Entra, both can be selected on a single run of the tool. It will also prompt if you want to remove existing groups before coping over new groups.</p>
+</li>
+<li>
+<p><strong>Remove Existing Memberships:</strong>
+Clears all current group memberships for AD and/or Entra depending on user selection.</p>
+</li>
+<li>
+<p><strong>Copy New Memberships:</strong>
+Copies group memberships from another user for AD and/or Entra. User running the tool must have permission to adjust group membership.</p>
+</li>
+</ul>
+<h2 id="tool-setup">Tool setup</h2>
+<ol>
+<li>
+<p>It is recommended to user powershell 7 when running this tool. In testing I have found the Powershell module Graph runs smoother and errors out less on version 7 rather than version 5. The module needed are:</p>
+<ul>
+<li>Microsoft.Graph
+<ul>
+<li><code>Install-Module Microsoft.Graph -Scope AllUsers</code></li>
+</ul>
+</li>
+<li>ExchangeOnlineManagement
+<ul>
+<li><code>Install-Module -Name ExchangeOnlineManagement -Scope AllUsers</code></li>
+</ul>
+</li>
+<li>PSFrameworks
+<ul>
+<li><code>Install-Module PSFramework -Scope AllUsers</code></li>
+</ul>
+</li>
+<li>Microsoft.powershell.consoleguitools
+<ul>
+<li><code>install-module microsoft.powershell.consoleguitools -scope AllUsers</code></li>
+</ul>
+</li>
+</ul>
+<p>Currently you must install the modules manually. It is recommend to install for All Users.</p>
+</li>
+<li>
+<p>Once the modules are installed you will need to edit the <code>template-config.json</code> file to include your setting requirements.</p>
+</li>
+<li>
+<p>Copy and rename to <code>config.json</code>. Then follow the detailed information in the <a href="#config-file">Config File</a> section on each setting.</p>
+</li>
+<li>
+<p>After <code>config.json</code> has the fields configured, create a shortcut point to<code>&quot;C:\Program Files\PowerShell\7\pwsh.exe&quot; &quot;C:\PATH\DUGAM\CustomNew-ADUser.ps1&quot;</code>. This will call the main tool menu.</p>
+</li>
+<li>
+<p>Run though some tests (1. Create new user, group membership removal and copy on existing user, etc.) to verify <code>config.json</code> fields are correct.</p>
+</li>
+</ol>
+<h2 id="specific-function-information">Specific Function Information</h2>
+<h3 id="prompts">Prompts</h3>
+<ul>
+<li>
+<p><strong>Office</strong>:</p>
+<p>When creating a new user it will prompt for the office location. This prompt is built with the option from the config file. <code>config.sitecode</code> array will be the choices. The site code will link to the <code>config.site.[SiteCode.code]</code> and use those fields when creating the AD user.</p>
+</li>
+<li>
+<p><strong>Company</strong></p>
+<p>This prompt will only show if you have multiple company names listed under <code>config.settings.company</code>. If there is only one it will use that by default without a prompt. Having multiple company names is helpful when creating dynamic distribution list. For example, You want a distribution list that has all accounts that are in a region(s) (e.g. Contoso NA, Contoso EU).</p>
+</li>
+</ul>
+<h3 id="user-lookup">User lookup</h3>
+<p>The user lookup function will search AD under the <code>config.settings.searchou</code> for matching Name, or SamAccountName. If no user is found with the name provide, it will give an error. Certain lookups are mandatory (e.g. SourceUser for group copying) and will continue to prompt until an user is selected. If the user lookup is not mandatory it will let you exit the search by typing in <code>Exit</code></p>
+<h3 id="graphexchange-authentication">Graph/Exchange Authentication</h3>
+<p>Authentication for Entra and Exchange is provided via Entra app authentication using certificate. This is used by the schedule task so no login credentials needs to be stored. The certificate need to be setup per computer that the script is running from. It is recommend to run on an server with Active Directory Remote Administration Server Tools (RAST) install for this reason.</p>
+<p>⚠️<strong>IT IS NOT RECOMMENDED TO RUN ON A DOMAIN CONTROLLER</strong>⚠️</p>
+<h3 id="logging">Logging</h3>
+<p>The script will generate a log file for each day(yyyy-mm-dd) &amp; username running the script(e.g. <code>1600-01-31-JoeSmith.log</code>). The logs can be found under the <code>\Logs</code> folder.</p>
+<h3 id="files">Files</h3>
+<p>Within the tool folder you will find the following folder structure. The tool makes calls to other files via relative path. Some specific file that will need editing, before running.</p>
+<ul>
+<li>
+<p><code>config.json</code> house all the setting and configuration needed before running the tool. View the config section of the manual for additional information regarding the fields.</p>
+</li>
+<li>
+<p><code>password.dic</code> contains the words used when creating the password. Each line is considered a word. It will pull two words.</p>
+</li>
+<li>
+<p><code>MailTemplateUserCreated.html</code> is the email body that will be sent to the manager/IT team with the user login information. The image that is displayed in the email needs to be setup as an attachment under <code>config.smtp.attachments</code> with matching file name (e.g. logo.png). This should let the email load without having the need to allow it by the user. The file name can be found on line 305 <code>&lt;img src=&quot;cid:logo.png&quot;/&gt;</code></p>
+<p>If you do not want the email to have an image at top, remove or comment out the following command block.</p>
+<pre class="hljs"><code><div><span class="hljs-comment">&lt;!-- COMPANY LOGO--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">table</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">td</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"logo"</span> <span class="hljs-attr">align</span>=<span class="hljs-string">"center"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"padding-bottom:10px;"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"cid:logo.png"</span>/&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">table</span>&gt;</span>
+</div></code></pre>
+</li>
+</ul>
+<p>DUGAM<br>
+├── ManualFiles<br>
+│    ├── Manual.md<br>
+│    └── Manual.pdf<br>
+├── Logs<br>
+│    └── 1600-01-31-JoeSmith.log<br>
+├── Resources<br>
+│    ├── config.json<br>
+│    ├── EntraUser.csv<br>
+│    ├── MailTemplateUserCreated.html<br>
+│    └── password.dict<br>
+├── CustomNew-ADUser.ps1<br>
+├── NDU-Functions.psm1<br>
+└── ScheduleEntraGroupCopy.ps1</p>
+<h2 id="config-file">Config File</h2>
+<p>This configuration file is in JSON format and is used to configure the tool. Below is a breakdown of the key sections and their meanings:</p>
+<h3 id="1-smtp-configuration">1. <strong>SMTP Configuration</strong></h3>
+<p>The <strong>SMTP</strong> section provides settings related to email notifications and sending messages.</p>
+<ul>
+<li><code>address</code>: Specifies the SMTP server domain to be used for sending emails (e.g., <code>smtp.domain.com</code>).</li>
+<li><code>from</code>: Defines the &quot;From&quot; address and display name for outgoing emails (e.g., <code>Email Name &lt;from@domain.com&gt;</code>).</li>
+<li><code>subject</code>: The subject line of the email. It includes a placeholder (<code>{{user.fullname}}</code>) that will dynamically insert the user's full name when the email is sent.</li>
+<li><code>attachment</code>: The path to a file that will be attached to the email, e.g., a <code>.png</code> image located at <code>C:\Path\jpeg.png</code>.</li>
+<li><img src="https://img.shields.io/badge/in_progress-yellow" alt="In Progress"> <s><code>ErrorTo</code>: Specifies the email address where errors will be sent</s>.</li>
+<li><code>ITEmail</code>: Defines an IT team's email address to be included in the BCC (blind carbon copy) field for emails containing user credentials.</li>
+<li><code>sendManagerEmail</code>: Boolean field (<code>TRUE</code> or <code>FALSE</code>) indicating whether an email should be sent to the user's manager with account details once finished. If false is selected it will only sent to the <code>ITEmail</code>.</li>
+</ul>
+<h3 id="2-settings-configuration">2. <strong>Settings Configuration</strong></h3>
+<p>This section contains general settings related to the domain, email templates, and authentication.</p>
+<ul>
+<li><code>mailTemplateManager</code>: Specifies the HTML template for the email sent to the manager after a user is created. The file is located in the application's directory <code>/Resources</code> (e.g., <code>MailTemplateUserCreated.html</code>).</li>
+<li><code>mailTemplateServiceDesk</code>: Defines the HTML template for email notifications sent to the service desk (e.g., <code>MailTemplateServiceDesk.html</code>).</li>
+<li><code>domain</code>: The name of the Active Directory domain (e.g., <code>contoso.local</code>).</li>
+<li><code>maildomain</code>: The domain used for email addresses (e.g., <code>domain.com</code>).</li>
+<li><code>Company</code>: Specifies the company name (e.g., <code>Contoso</code>).</li>
+<li><code>SearchOU</code>: Defines the Organizational Unit (OU) in Active Directory to search for users. (e.g.<code>OU=Users,DC=Contoso,DC=com</code>)</li>
+</ul>
+<h4 id="password">Password</h4>
+<p>Setting used for the password generator</p>
+<ul>
+<li><code>NumberofWords</code>: This is the number of words it will selected from the password dictionary. For each word it will have a number or special chararcters in between them.</li>
+<li><code>RequiredLenght</code>: The number of chararcters required for the passwords. It will extend it with the numbers or special chararcters.</li>
+<li><code>Numbers</code>: Boolean field [true/false] if you want numbers 0-9 included.</li>
+<li><code>SpecialChar</code>: Enter in the special chararcters your want to use seperated by <code>,</code></li>
+</ul>
+<h4 id="authentication-information">Authentication Information:</h4>
+<ul>
+<li><code>Auth</code>: Authentication details for accessing Entra via a deploy Application with cert authentication.
+<ul>
+<li><code>tenant_id</code>: The ID of the Entra tenant.</li>
+<li><code>certThumbprint</code>: The certificate thumbprint used for authentication.</li>
+<li><code>client_id</code>: The client ID of the application in Entra.</li>
+<li><code>Organization</code>: The name of the Entra organization.</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-site-codes-and-locations">3. <strong>Site Codes and Locations</strong></h3>
+<p>The <code>SiteCode</code> and <code>site</code> sections define site-specific configurations for different locations, including city, office, and organizational unit (OU) in Active Directory.</p>
+<ul>
+<li>
+<p><code>SiteCode</code>: An array of site definitions, where each site has a code and name:</p>
+<ul>
+<li><code>Code</code>: A unique code for the site (e.g., <code>BER01</code>, <code>NYC</code>).</li>
+<li><code>Name</code>: The name of the site (e.g., <code>City Centre Alexanderplatz</code>, <code>New York City</code>).</li>
+</ul>
+</li>
+<li>
+<p><code>site</code>: Defines detailed settings for each site based on its code. Each field is representative of the AD field. (e.g. <code>City</code> will display in AD City field):</p>
+<ul>
+<li>For site <code>BER01</code>:
+<ul>
+<li><code>City</code>: The city where the office is located (e.g., <code>Berlin</code>).</li>
+<li><code>office</code>: An name for the office. If there are multiple office in Berlin location this is a way to distinguish them.  (e.g., <code>City Centre Alexanderplatz, East Side Galley</code>).</li>
+<li><code>OU</code>: The Organizational Unit in Active Directory where user accounts for this site will be stored (e.g., <code>OU=Users,OU=Site01,DC=Contoso,DC=com</code>).</li>
+<li><code>state</code>: The state/provence of the office location (e.g., <code>Minnesota</code>).</li>
+<li><code>PostalCode</code>: The postal code of the office location (e.g., <code>10001</code>).</li>
+</ul>
+</li>
+<li>For Additional sites add <code>,</code> after the closing <code>}</code> and follow the required formatting.</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-string">"BER01"</span>: {
+  <span class="hljs-attr">"City"</span>: <span class="hljs-string">"Berlin"</span>,
+  <span class="hljs-attr">"office"</span>: <span class="hljs-string">"City Centre Alexanderplatz"</span>,
+  <span class="hljs-attr">"OU"</span>: <span class="hljs-string">"OU=Users,OU=Berlin,DC=Contoso,DC=com"</span>,
+  <span class="hljs-attr">"state"</span>: <span class="hljs-string">"Brandenburg"</span>,
+  <span class="hljs-attr">"PostalCode"</span>: <span class="hljs-string">"10178"</span>
+    }
+</div></code></pre>
+</li>
+</ul>
+<h3 id="summary-of-key-components">Summary of Key Components:</h3>
+<ol>
+<li><strong>SMTP Configuration</strong>: Used to send emails with user account details, attachments, and notifications to managers and IT teams.</li>
+<li><strong>Settings</strong>: Contains email templates, domain, company information, and Entra authentication settings for interacting with cloud services.</li>
+<li><strong>Site Configuration</strong>: Specifies different office locations (sites), including details like city, office code, organizational units in Active Directory, state, and postal code.</li>
+</ol>
+<p>Full Config file example:</p>
+<pre class="hljs"><code><div>{
+    <span class="hljs-attr">"SMTP"</span>: {
+      <span class="hljs-attr">"address"</span>: <span class="hljs-string">"smtp.domain.com"</span>,
+      <span class="hljs-attr">"from"</span>: <span class="hljs-string">"Email Name &lt;from@domain.com&gt;"</span>,
+      <span class="hljs-attr">"subject"</span>: <span class="hljs-string">"User Account details for {{user.fullname}}"</span>,
+      <span class="hljs-attr">"attachment"</span>: <span class="hljs-string">"C:\Path\jpeg.png"</span>,
+      <span class="hljs-attr">"ErrorTo"</span>: <span class="hljs-string">"error email address. [[IN PROGRESS]]"</span>,
+      <span class="hljs-attr">"ITEmail"</span>: <span class="hljs-string">"IT team email to be BCC for user creds"</span>,
+      <span class="hljs-attr">"sendManagerEmail"</span>: <span class="hljs-string">"TRUE\FALSE"</span>
+    },
+    <span class="hljs-attr">"Settings"</span>: {
+      <span class="hljs-attr">"mailTemplateManager"</span>: <span class="hljs-string">"MailTemplateUserCreated.html"</span>,
+      <span class="hljs-attr">"mailTemplateServiceDesk"</span>: <span class="hljs-string">"MailTemplateServiceDesk.html"</span>,
+      <span class="hljs-attr">"domain"</span>: <span class="hljs-string">"AD Domain"</span>,
+      <span class="hljs-attr">"maildomain"</span>: <span class="hljs-string">"Email Domain"</span>,
+	    <span class="hljs-attr">"Company"</span>: <span class="hljs-string">"Contoso"</span>,
+      <span class="hljs-attr">"SearchOU"</span>: <span class="hljs-string">"DC=Contoso,DC=com"</span>,
+      <span class="hljs-attr">"Auth"</span>:{
+        <span class="hljs-attr">"tenant_id"</span>: <span class="hljs-string">"Entra App Tennant ID"</span>,
+        <span class="hljs-attr">"certThumbprint"</span>: <span class="hljs-string">"Entra App Cert thumbprint"</span>,
+        <span class="hljs-attr">"client_id"</span>: <span class="hljs-string">"App Client ID"</span>,
+        <span class="hljs-attr">"Organization"</span>: <span class="hljs-string">"Entra Domain name"</span>
+      }
+      
+    },
+    <span class="hljs-attr">"SiteCode"</span>:
+        [
+          {
+            <span class="hljs-attr">"Code"</span>: <span class="hljs-string">"BER01"</span>,
+            <span class="hljs-attr">"Name"</span>: <span class="hljs-string">"City Centre Alexanderplatz"</span>
+          },
+          {
+            <span class="hljs-attr">"Code"</span>: <span class="hljs-string">"02"</span>,
+            <span class="hljs-attr">"Name"</span>: <span class="hljs-string">"Site02"</span>
+          }
+
+        ]
+      ,
+    <span class="hljs-attr">"site"</span>: {
+      <span class="hljs-attr">"BER01"</span>: {
+        <span class="hljs-attr">"City"</span>: <span class="hljs-string">"Berlin"</span>,
+        <span class="hljs-attr">"office"</span>: <span class="hljs-string">"City Centre Alexanderplatz"</span>,
+        <span class="hljs-attr">"OU"</span>: <span class="hljs-string">"OU=Users,OU=Berlin,DC=Contoso,DC=com"</span>,
+        <span class="hljs-attr">"state"</span>: <span class="hljs-string">"Brandenburg"</span>,
+        <span class="hljs-attr">"PostalCode"</span>: <span class="hljs-string">"10178"</span>
+      },
+      <span class="hljs-attr">"02"</span>: {
+        <span class="hljs-attr">"City"</span>: <span class="hljs-string">"Indianapolis"</span>,
+        <span class="hljs-attr">"office"</span>: <span class="hljs-string">"IND"</span>,
+        <span class="hljs-attr">"OU"</span>: <span class="hljs-string">"OU=Users,OU=Site02,DC=Contoso,DC=com"</span>,
+        <span class="hljs-attr">"state"</span>: <span class="hljs-string">"Texas"</span>,
+        <span class="hljs-attr">"PostalCode"</span>: <span class="hljs-string">"10002"</span>
+      }
+    }
+  }
+</div></code></pre>
+<ol>
+<li>This document is created with markdown and convert to PDF. If there are format issue please view the markdown file.</li>
+</ol>
+
+</body>
+</html>
