@@ -110,7 +110,7 @@ Sends the email templated that is build by function "Get-EmailTemplate" and send
 
 	if($config.SMTP.SendManagerEmail){
         Try {
-            Send-MailMessage -SmtpServer $config.SMTP.address -To $manager -bcc $config.SMTP.ITTeam  -From $config.SMTP.from -Subject $subject -Encoding $encoding -Body $emailBody -BodyAsHtml -Attachments $config.SMTP.Attachment
+            Send-MailMessage -SmtpServer $config.SMTP.address -To $manager -bcc $config.SMTP.ITEmail  -From $config.SMTP.from -Subject $subject -Encoding $encoding -Body $emailBody -BodyAsHtml -Attachments $config.SMTP.Attachment
             Write-PSFMessage -Level host -Message "Email sent to maanger and BCC to IT Team"
         } Catch	{
         Write-Error "Failed to send email to manager, $_"
@@ -120,7 +120,7 @@ Sends the email templated that is build by function "Get-EmailTemplate" and send
     }
     else {
         Try {
-            Send-MailMessage -SmtpServer $config.SMTP.address -To $config.SMTP.ITTeam -From $config.SMTP.from -Subject $subject -Encoding $encoding -Body $emailBody -BodyAsHtml -Attachments $config.SMTP.Attachment
+            Send-MailMessage -SmtpServer $config.SMTP.address -To $config.SMTP.ITEmail -From $config.SMTP.from -Subject $subject -Encoding $encoding -Body $emailBody -BodyAsHtml -Attachments $config.SMTP.Attachment
             Write-PSFMessage -Level host -Message "Email sent to It team"
         } Catch	{
         Write-Error "Failed to send email to It team, $_"
