@@ -852,9 +852,9 @@ function Get-DomainUserData {
         $attributes.add("office",$config.site.$($office.Code).office)
     }
     #OU
-    $attributes.add("OU",$config.site.$($office.Code).OU)
-    <#try {
-        if(Get-ADOrganizationalUnit -filter "DistringuishedName -eq '$($config.site.$($office.Code).OU)'") {
+    ##$attributes.add("OU",$config.site.$($office.Code).OU)
+    try {
+        if(Get-ADOrganizationalUnit -Identity $($config.site.$($office.Code).OU) -ErrorAction stop) {
             $attributes.add("OU",$config.site.$($office.Code).OU)
         }
     }
@@ -862,7 +862,7 @@ function Get-DomainUserData {
         Write-PSFMessage -level Error -message "Office OU is not found. Please correct the config file for $($office.Code). The current value is: $($config.site.$($office.Code).OU)"
         Pause
         exit
-    }#>
+    }
     #State
     If($NULL -eq $config.site.$($office.Code).state){
         $attributes.add("State",(Read-host "What State is the user in"))
