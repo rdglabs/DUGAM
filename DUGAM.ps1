@@ -133,13 +133,14 @@ Set-PSFLoggingProvider @logger
 Set-PSFConfig -FullName PSFramework.Message.Style.FunctionName -Value $false
 Set-PSFConfig -FullName PSFramework.Message.Style.Timestamp -Value $false
 Write-PSFMessage -Level Verbose -Message "Program Domain User & Group Membership Automator Start"
+$help = (get-help $PSCommandPath)
 Clear-Host
 do{
 Clear-Host
 Write-Host "--==================================================================================================================--" -ForegroundColor DarkCyan
 Write-Host "||                                                                                                                  ||" -ForegroundColor DarkCyan
 Write-Host "||                                     Domain User & Group Membership Automator                                     ||" -ForegroundColor DarkCyan
-write-host "||                                                  Version $($version -replace '(?ms)Version:\s+([0-9.]+).+','$1')                                                   ||" -ForegroundColor DarkCyan
+write-host "||                                                  Version $($help.alertSet.alert.Text -replace '(?ms)Version:\s+([0-9.]+).+','$1')                                                   ||" -ForegroundColor DarkCyan
 Write-Host "||                                                                                                                  ||" -ForegroundColor DarkCyan
 Write-Host "--==================================================================================================================--" -ForegroundColor DarkCyan
 Write-Host "`n"
@@ -182,7 +183,7 @@ switch ($Q1Answer) {
         Copy-DomainUserPrompt
     }
     2{
-        $help = (get-help $PSCommandPath)
+        
         $Q2Answer = ($host.ui.PromptForChoice("","View Detailed Description, Version Notes, or Both",@("&Description","&Version","&Manual"),0))
         Write-PSFMessage -Level Verbose -Message "$($Q1Answer) was selected"
         switch ($Q2Answer) {
