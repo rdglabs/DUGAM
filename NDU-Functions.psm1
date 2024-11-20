@@ -8,7 +8,7 @@ Functions used by the  Custom Domain User creation and group management tool
 .NOTES
   Author:         Ryan Gillespie
 #>
-
+#require
 $config = Get-Content "$PSScriptRoot\Resources\config.json" -raw | ConvertFrom-Json
 $attributes = @{}
 
