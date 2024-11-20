@@ -139,7 +139,7 @@ Clear-Host
 Write-Host "--==================================================================================================================--" -ForegroundColor DarkCyan
 Write-Host "||                                                                                                                  ||" -ForegroundColor DarkCyan
 Write-Host "||                                     Domain User & Group Membership Automator                                     ||" -ForegroundColor DarkCyan
-write-host "||                                                  Version 2.1.1                                                   ||" -ForegroundColor DarkCyan
+write-host "||                                                  Version $($version -replace '(?ms)Version:\s+([0-9.]+).+','$1')                                                   ||" -ForegroundColor DarkCyan
 Write-Host "||                                                                                                                  ||" -ForegroundColor DarkCyan
 Write-Host "--==================================================================================================================--" -ForegroundColor DarkCyan
 Write-Host "`n"
