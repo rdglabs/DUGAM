@@ -16,7 +16,7 @@
 	    "Company": "Contoso",
       "SearchOU": "DC=Contoso,DC=com",
       "password":{
-        "NumberofWords": 1,
+        "NumberofWords": 2,
         "RequiredLength": 14,
         "Numbers": true,
         "SpecialChar": "!,@,#,$,&"
