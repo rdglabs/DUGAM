@@ -8,7 +8,7 @@ Functions used by the  Custom Domain User creation and group management tool
 .NOTES
   Author:         Ryan Gillespie
 #>
-#require
+#require -modules Microsoft.Graph, ExchangeOnlineManagement, PSFramework, microsoft.powershell.consoleguitools
 $config = Get-Content "$PSScriptRoot\Resources\config.json" -raw | ConvertFrom-Json
 $attributes = @{}
 
@@ -16,6 +16,12 @@ $attributes = @{}
 [string]$Password = $null
 [string]$givenName = $null
 [string]$surName = $null
+
+
+<#Check config file has all the require keys#>
+# Define the required keys for each section of the configuration
+
+
 
 Function Get-EmailTemplate
 {
