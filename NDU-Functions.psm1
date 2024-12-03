@@ -8,7 +8,7 @@ Functions used by the  Custom Domain User creation and group management tool
 .NOTES
   Author:         Ryan Gillespie
 #>
-#require
+
 $config = Get-Content "$PSScriptRoot\Resources\config.json" -raw | ConvertFrom-Json
 $attributes = @{}
 
@@ -53,7 +53,7 @@ Load the email template from the HTML file and replaces the placeholders with us
     
 	Write-PSFMessage -Level Host -Message "Attempting to send email to $($manager) for the user $($user) with password: $($Emailpassword)"
     #Get the mail template
-    $mailTemplate = (Get-Content ("$PSScriptRoot\Resources\MailTemplateUserCreated.html")) | ForEach-Object {
+    $mailTemplate = (Get-Content (".\Resources\MailTemplateUserCreated.html")) | ForEach-Object {
       $_ 	-replace '{{manager.firstname}}', ($manager).Substring(0,($Manager.IndexOf('.'))) `
       -replace '{{user.UserPrincipalName}}', $user.UserPrincipalname `
       -replace '{{user.Password}}', $Emailpassword `
@@ -228,6 +228,7 @@ Creates the AD user with the information in the parameter provide along with dom
         Name                  = $user.GivenName + " " + $user.Surname
         DisplayName           = $user.GivenName + " " + $user.Surname
         EmailAddress          = $user.GivenName + "." + $user.Surname + $config.Settings.maildomain
+        EmployeeID            = $user.EmployeeID
         StreetAddress         = $user.StreetAddress
         PostalCode            = $user.PostalCode
 		state                 = $user.state
@@ -307,7 +308,7 @@ Generates a passphase with two words from the password dict. Adjust the words to
 #>
     
 
-    $Dict = Get-Content -Path "$PSScriptRoot\Resources\password.dict" | Sort-Object {Get-Random} | Select-Object -First $config.Settings.password.NumberofWords
+    $Dict = Get-Content -Path '.\Resources\password.dict' | Sort-Object {Get-Random} | Select-Object -First $config.Settings.password.NumberofWords
     $WordList = @()
     $chars=@()
 
@@ -334,7 +335,7 @@ Generates a passphase with two words from the password dict. Adjust the words to
     if($config.Settings.password.Numbers){
         $Delimiters += '1','2','3','4','5','6','7','8','9','0'   
     }
-    if($config.Settings.password.SpecialChar.count -gt 0){
+    if($config.Settings.password.SpecialChar -gt 0){
         $Delimiters += ($config.Settings.password.SpecialChar).Split(',')
     }
     for ($i = 0; $i -lt $config.Settings.password.NumberofWords; $i++) {
@@ -364,7 +365,7 @@ Generates a passphase with two words from the password dict. Adjust the words to
 
     
     Write-PSFMessage -Level Host -Message "New Password generated: $($global:Password)`n`n" 
-	pause
+	start-sleep 5
 }
 
 function set-EntraCopyGroups {
@@ -396,7 +397,7 @@ Creates a schedule task that will executes the scheduleEntraGroupCopy.ps1 script
     $user = $cred.UserName
     $pass = $cred.GetNetworkCredential().Password
     $trigger = New-ScheduledTaskTrigger -Once -At $taskDate
-    $action  = New-ScheduledTaskAction -Execute "C:\Program Files\PowerShell\7\pwsh.exe" -Argument '-ExecutionPolicy Bypass -file "$PSScriptRoot\ScheduleEntraGroupCopy.ps1"' -WorkingDirectory "$PSScriptRoot"
+    $action  = New-ScheduledTaskAction -Execute "C:\Program Files\PowerShell\7\pwsh.exe" -Argument '-ExecutionPolicy Bypass -file ".\ScheduleEntraGroupCopy.ps1"' -WorkingDirectory "$PSScriptRoot"
 
     try{
         Register-ScheduledTask -TaskName 'CopyEntraGroups' -TaskPath '\Truvant\' -Action $action -Trigger $trigger -RunLevel Highest -User $user -Password $pass -ErrorAction Stop
@@ -442,7 +443,7 @@ adds the targetuser info and sourceuser to a csv file that is used by ScheduleEn
         Completed = $EntraCompleted
     }
     try {
-        $csv | export-csv $PSScriptRoot\Resources\EntraUsers.csv -Force -Append 
+        $csv | export-csv .\Resources\EntraUsers.csv -Force -Append 
         Write-PSFMessage -Level Verbose -Message "$($csv | out-string) appended to csv file successfully"
     }
     catch {
@@ -817,7 +818,7 @@ function Get-DomainUserData {
     
     
     $attributes.add("department",(Read-Host "Enter User's department"))
-    $attributes.add("Employee ID",(Read-Host "Enter User's Employee ID #"))
+    $attributes.add("EmployeeID",(Read-Host "Enter User's Employee ID #"))
     
     $Manager =  Find-DomainUser -message "Enter the user's manager."
     Write-PSFMessage -Level host -Message "You selected $($Manager.Name)"
@@ -852,9 +853,9 @@ function Get-DomainUserData {
         $attributes.add("office",$config.site.$($office.Code).office)
     }
     #OU
-    ##$attributes.add("OU",$config.site.$($office.Code).OU)
+    #$attributes.add("OU",$config.site.$($office.Code).OU)
     try {
-        if(Get-ADOrganizationalUnit -Identity $($config.site.$($office.Code).OU) -ErrorAction stop) {
+        if(Get-ADOrganizationalUnit -Identity $($config.site.$($office.Code).OU) -erroraction stop) {
             $attributes.add("OU",$config.site.$($office.Code).OU)
         }
     }
@@ -914,11 +915,11 @@ function Get-DomainUserData {
     else{
         write-host "No groups where copied. All groups must be added for AD" -ForegroundColor Red
         Write-PSFMessage -Level Verbose -Message "user selected to not copy any groups"
-        export-csvinfo -TargetUser $attributes.UserPrincipalName -SourceUser $NewUser.UserPrincipalName -EntraCompleted $true
+        
     
         if(($host.ui.PromptForChoice("","Do you want to notify the manager with user's login now?",@('&Yes','&No'),0)) -eq 0){
-            $emailBody = Get-EmailTemplate -user $info -Manager $info.Manager -password $users.password
-            Send-MailtoManager -user $info -manager $info.Manager -EmailBody $emailBody -config $config
+            $emailBody = Get-EmailTemplate -user $attributes -Manager $attributes.Manager -password $users.password
+            Send-MailtoManager -user $attributes -manager $attributes.Manager -EmailBody $emailBody -config $config
             Write-host "Users login password is: $($Global:Password)"
             pause
         }else {
