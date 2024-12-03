@@ -59,7 +59,7 @@ Load the email template from the HTML file and replaces the placeholders with us
     
 	Write-PSFMessage -Level Host -Message "Attempting to send email to $($manager) for the user $($user) with password: $($Emailpassword)"
     #Get the mail template
-    $mailTemplate = (Get-Content (".\Resources\MailTemplateUserCreated.html")) | ForEach-Object {
+    $mailTemplate = (Get-Content ("$PSScriptRoot\Resources\MailTemplateUserCreated.html")) | ForEach-Object {
       $_ 	-replace '{{manager.firstname}}', ($manager).Substring(0,($Manager.IndexOf('.'))) `
       -replace '{{user.UserPrincipalName}}', $user.UserPrincipalname `
       -replace '{{user.Password}}', $Emailpassword `
@@ -314,7 +314,7 @@ Generates a passphase with two words from the password dict. Adjust the words to
 #>
     
 
-    $Dict = Get-Content -Path '.\Resources\password.dict' | Sort-Object {Get-Random} | Select-Object -First $config.Settings.password.NumberofWords
+    $Dict = Get-Content -Path "$PSScriptRoot\Resources\password.dict" | Sort-Object {Get-Random} | Select-Object -First $config.Settings.password.NumberofWords
     $WordList = @()
     $chars=@()
 
@@ -341,7 +341,7 @@ Generates a passphase with two words from the password dict. Adjust the words to
     if($config.Settings.password.Numbers){
         $Delimiters += '1','2','3','4','5','6','7','8','9','0'   
     }
-    if($config.Settings.password.SpecialChar -gt 0){
+    if($config.Settings.password.SpecialChar.count -gt 0){
         $Delimiters += ($config.Settings.password.SpecialChar).Split(',')
     }
     for ($i = 0; $i -lt $config.Settings.password.NumberofWords; $i++) {
@@ -371,7 +371,7 @@ Generates a passphase with two words from the password dict. Adjust the words to
 
     
     Write-PSFMessage -Level Host -Message "New Password generated: $($global:Password)`n`n" 
-	start-sleep 5
+	Pause
 }
 
 function set-EntraCopyGroups {
@@ -403,7 +403,7 @@ Creates a schedule task that will executes the scheduleEntraGroupCopy.ps1 script
     $user = $cred.UserName
     $pass = $cred.GetNetworkCredential().Password
     $trigger = New-ScheduledTaskTrigger -Once -At $taskDate
-    $action  = New-ScheduledTaskAction -Execute "C:\Program Files\PowerShell\7\pwsh.exe" -Argument '-ExecutionPolicy Bypass -file ".\ScheduleEntraGroupCopy.ps1"' -WorkingDirectory "$PSScriptRoot"
+    $action  = New-ScheduledTaskAction -Execute "C:\Program Files\PowerShell\7\pwsh.exe" -Argument '-ExecutionPolicy Bypass -file "$PSScriptRoot\ScheduleEntraGroupCopy.ps1"' -WorkingDirectory "$PSScriptRoot"
 
     try{
         Register-ScheduledTask -TaskName 'CopyEntraGroups' -TaskPath '\Truvant\' -Action $action -Trigger $trigger -RunLevel Highest -User $user -Password $pass -ErrorAction Stop
@@ -449,7 +449,7 @@ adds the targetuser info and sourceuser to a csv file that is used by ScheduleEn
         Completed = $EntraCompleted
     }
     try {
-        $csv | export-csv .\Resources\EntraUsers.csv -Force -Append 
+        $csv | export-csv $PSScriptRoot\Resources\EntraUsers.csv -Force -Append 
         Write-PSFMessage -Level Verbose -Message "$($csv | out-string) appended to csv file successfully"
     }
     catch {
@@ -861,7 +861,7 @@ function Get-DomainUserData {
     #OU
     #$attributes.add("OU",$config.site.$($office.Code).OU)
     try {
-        if(Get-ADOrganizationalUnit -Identity $($config.site.$($office.Code).OU) -erroraction stop) {
+        if(Get-ADOrganizationalUnit -Identity $($config.site.$($office.Code).OU) -ErrorAction stop) {
             $attributes.add("OU",$config.site.$($office.Code).OU)
         }
     }
