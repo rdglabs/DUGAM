@@ -403,7 +403,7 @@ Creates a schedule task that will executes the scheduleEntraGroupCopy.ps1 script
     $user = $cred.UserName
     $pass = $cred.GetNetworkCredential().Password
     $trigger = New-ScheduledTaskTrigger -Once -At $taskDate
-    $action  = New-ScheduledTaskAction -Execute "C:\Program Files\PowerShell\7\pwsh.exe" -Argument '-ExecutionPolicy Bypass -file "$PSScriptRoot\ScheduleEntraGroupCopy.ps1"' -WorkingDirectory "$PSScriptRoot"
+    $action  = New-ScheduledTaskAction -Execute "C:\Program Files\PowerShell\7\pwsh.exe" -Argument '-ExecutionPolicy Bypass -file ".\ScheduleEntraGroupCopy.ps1"' -WorkingDirectory "$PSScriptRoot"
 
     try{
         Register-ScheduledTask -TaskName 'CopyEntraGroups' -TaskPath '\Truvant\' -Action $action -Trigger $trigger -RunLevel Highest -User $user -Password $pass -ErrorAction Stop
