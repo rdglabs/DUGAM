@@ -234,6 +234,7 @@ Creates the AD user with the information in the parameter provide along with dom
         Name                  = $user.GivenName + " " + $user.Surname
         DisplayName           = $user.GivenName + " " + $user.Surname
         EmailAddress          = $user.GivenName + "." + $user.Surname + $config.Settings.maildomain
+        EmployeeID            = $user.EmployeeID
         StreetAddress         = $user.StreetAddress
         PostalCode            = $user.PostalCode
 		state                 = $user.state
@@ -370,7 +371,7 @@ Generates a passphase with two words from the password dict. Adjust the words to
 
     
     Write-PSFMessage -Level Host -Message "New Password generated: $($global:Password)`n`n" 
-	pause
+	Pause
 }
 
 function set-EntraCopyGroups {
@@ -402,7 +403,7 @@ Creates a schedule task that will executes the scheduleEntraGroupCopy.ps1 script
     $user = $cred.UserName
     $pass = $cred.GetNetworkCredential().Password
     $trigger = New-ScheduledTaskTrigger -Once -At $taskDate
-    $action  = New-ScheduledTaskAction -Execute "C:\Program Files\PowerShell\7\pwsh.exe" -Argument '-ExecutionPolicy Bypass -file "$PSScriptRoot\ScheduleEntraGroupCopy.ps1"' -WorkingDirectory "$PSScriptRoot"
+    $action  = New-ScheduledTaskAction -Execute "C:\Program Files\PowerShell\7\pwsh.exe" -Argument '-ExecutionPolicy Bypass -file ".\ScheduleEntraGroupCopy.ps1"' -WorkingDirectory "$PSScriptRoot"
 
     try{
         Register-ScheduledTask -TaskName 'CopyEntraGroups' -TaskPath '\Truvant\' -Action $action -Trigger $trigger -RunLevel Highest -User $user -Password $pass -ErrorAction Stop
@@ -823,7 +824,7 @@ function Get-DomainUserData {
     
     
     $attributes.add("department",(Read-Host "Enter User's department"))
-    $attributes.add("Employee ID",(Read-Host "Enter User's Employee ID #"))
+    $attributes.add("EmployeeID",(Read-Host "Enter User's Employee ID #"))
     
     $Manager =  Find-DomainUser -message "Enter the user's manager."
     Write-PSFMessage -Level host -Message "You selected $($Manager.Name)"
@@ -858,7 +859,7 @@ function Get-DomainUserData {
         $attributes.add("office",$config.site.$($office.Code).office)
     }
     #OU
-    ##$attributes.add("OU",$config.site.$($office.Code).OU)
+    #$attributes.add("OU",$config.site.$($office.Code).OU)
     try {
         if(Get-ADOrganizationalUnit -Identity $($config.site.$($office.Code).OU) -ErrorAction stop) {
             $attributes.add("OU",$config.site.$($office.Code).OU)
@@ -920,11 +921,11 @@ function Get-DomainUserData {
     else{
         write-host "No groups where copied. All groups must be added for AD" -ForegroundColor Red
         Write-PSFMessage -Level Verbose -Message "user selected to not copy any groups"
-        export-csvinfo -TargetUser $attributes.UserPrincipalName -SourceUser $NewUser.UserPrincipalName -EntraCompleted $true
+        
     
         if(($host.ui.PromptForChoice("","Do you want to notify the manager with user's login now?",@('&Yes','&No'),0)) -eq 0){
-            $emailBody = Get-EmailTemplate -user $info -Manager $info.Manager -password $users.password
-            Send-MailtoManager -user $info -manager $info.Manager -EmailBody $emailBody -config $config
+            $emailBody = Get-EmailTemplate -user $attributes -Manager $attributes.Manager -password $users.password
+            Send-MailtoManager -user $attributes -manager $attributes.Manager -EmailBody $emailBody -config $config
             Write-host "Users login password is: $($Global:Password)"
             pause
         }else {

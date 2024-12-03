@@ -12,7 +12,7 @@ The second function is for mass group membership updates, which is intended for 
 Authentication to Entra and Exchange is done via App Authentication with a certification. If the certification expires it will prompt to use your login. Your login must have all the correct permissions. If the certification expired the schedule task will not be able to run causing it error out and fail. A updated certification must deployed. 
 
 .NOTES
-  Version:        2.0.1
+  Version:        2.1.1
   Author:         Ryan Gillespie
   Creation Date:  2024/08/26
   ChangeLog: 
