@@ -66,12 +66,15 @@ Authentication to Entra and Exchange is done via App Authentication with a certi
         - Start added logging via PSFramework module
     V2.1.1 - 2024/11/07
         - Created Documentation, and added some more dynamic option in config file with respective prompts if they are needed. 
+    V2.1.2
+        - Added #require field, password config option, OU check is working. 
 
 
 
 #>
+#require -modules Microsoft.Graph, ExchangeOnlineManagement, PSFramework, microsoft.powershell.consoleguitools
 
-#TODO: Error notification function. Currently have to manually view log files
+
 
 ################################################################################################################################
 #------------------------------------------------------Variables Declared------------------------------------------------------#

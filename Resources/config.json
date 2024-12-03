@@ -1,5 +1,5 @@
 {
-      "SMTP": {
+    "SMTP": {
       "address": "smtp.domain.com",
       "from": "Email Name <from@domain.com>",
       "subject": "User Account details for {{user.fullname}}",
